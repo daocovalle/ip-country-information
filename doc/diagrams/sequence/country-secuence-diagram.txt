@@ -17,7 +17,7 @@ ip-geolocation-->ip-information: response
 ip-information->country-information: requestCountryInformation(countrycode3)
 country-information-->ip-information: response
 ip-information->coin-information: GetCurrencyCoinInfo(base,symbols)
-coin-information-->ip-information: responsehttps://www.websequencediagrams.com/?png=msc299552468
+coin-information-->ip-information: response
 ip-information->ip-information: build response
 ip-information-->Api-Gateway: response
 Api-Gateway-->IntegratorAPI: response
