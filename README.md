@@ -1,6 +1,6 @@
 # Country IP Information developer guide
 
-#Dev Tecnologies:
+## Dev Tecnologies:
 * Java
 * Spring Boot
 * SpringJPA
@@ -9,7 +9,7 @@
 * AWS S3
 * AWS RDS
 
-#Test tecnologies
+## Test tecnologies
 * JUnit 5
 * Mockit
 
