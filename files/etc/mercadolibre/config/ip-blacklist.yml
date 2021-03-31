@@ -1,0 +1,14 @@
+server:
+  port: 8090
+
+spring:
+  jackson:
+    time-zone: America/Bogota
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://database-2.cnxec2xrzm7m.us-east-2.rds.amazonaws.com:5432/mercadolibre
+    username: mercadolibre
+    password: ZahmaXs6GnpY

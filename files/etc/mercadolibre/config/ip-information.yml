@@ -1,0 +1,24 @@
+server:
+  port: 8092
+
+geolocation:
+  url: "https://api.ip2country.info/ip?"
+
+country:
+  url: "https://restcountries.eu/rest/v2/alpha/"
+
+coin:
+  url: "http://data.fixer.io/api/latest"
+  param-key: "access_key"
+  param-value: "9dd409bf55953525b107328e631f70e6"
+
+blacklist:
+  url: "http://13.59.79.74:8090/retrieve"
+
+
+logging:
+  level:
+    reactor:
+      netty:
+        http:
+          client: INFO

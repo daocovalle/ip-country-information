@@ -1,0 +1,12 @@
+version: "2.2"
+services:
+  ip-information:
+    container_name: ip-information
+    image: ip-information:latest
+    mem_limit: 600m
+    volumes:
+      - "/etc/mercadolibre/config:/etc/mercadolibre/config"
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: "file:/etc/mercadolibre/config/ip-information.yml"
+    ports:
+      - "8092:8092"

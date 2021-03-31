@@ -1,0 +1,16 @@
+server:
+  port: 8091
+zuul:
+  routes:
+    users:
+      path: /ip-information/**
+      url: http://localhost:8092
+
+gateway-security:
+  allowed-paths: ["/ip-information/**", "/actuator/health", "/actuator/**" ]
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
