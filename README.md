@@ -90,3 +90,9 @@ or additional you can check the health of services and create alarms for it:
 	curl HOST:8092/actuator/health  #ipinformation
 ```
 
+Test service with:
+
+```health
+http://HOST:8091/country-information?ip=2.22.160.0
+http://13.59.79.74:8091/country-information?ip=2.22.160.0
+```

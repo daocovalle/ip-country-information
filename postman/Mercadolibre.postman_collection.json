@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "b201a63a-7f08-42d5-856e-5feea31ba629",
+		"name": "Mercadolibre",
+		"description": "Postman Echo is service you can use to test your REST clients and make sample API calls. It provides endpoints for `GET`, `POST`, `PUT`, various auth mechanisms and other utility endpoints.\n\nThe documentation for the endpoints as well as example responses can be found at [https://postman-echo.com](https://postman-echo.com/?source=echo-collection-app-onboarding)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "mercadolibre",
+			"item": [
+				{
+					"name": "save-blacklist-information",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ip\": \"1.1.1.1\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://13.59.79.74:8090/save",
+							"protocol": "http",
+							"host": [
+								"13",
+								"59",
+								"79",
+								"74"
+							],
+							"port": "8090",
+							"path": [
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save-blacklist-ip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://13.59.79.74:8090/retrieve?ip=1.1.1.1",
+							"protocol": "http",
+							"host": [
+								"13",
+								"59",
+								"79",
+								"74"
+							],
+							"port": "8090",
+							"path": [
+								"retrieve"
+							],
+							"query": [
+								{
+									"key": "ip",
+									"value": "1.1.1.1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-country-informationg-using-ip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://13.59.79.74:8091/country-information?ip=2.22.160.0",
+							"protocol": "http",
+							"host": [
+								"13",
+								"59",
+								"79",
+								"74"
+							],
+							"port": "8091",
+							"path": [
+								"country-information"
+							],
+							"query": [
+								{
+									"key": "ip",
+									"value": "2.22.160.0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
