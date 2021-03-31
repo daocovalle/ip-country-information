@@ -9,12 +9,11 @@
 
 1. [Install Eclipse](https://www.eclipse.org/downloads/) or [Spring Tool Suite](https://spring.io/tools/sts/all) or your favorite IDE
 2. If you are using Eclipse, go to *Help/Marketplace* and install Spring Tools
-3. Download [CheckstyleFormatterForEclipse.xml](https://xxxxxxx/) and import into Eclipse or Spring Tool Suite.
-4. Change text file encoding to UTF-8 in Eclipse or Spring Tool Suite.
-5. Download repo
+3. Change text file encoding to UTF-8 in Eclipse or Spring Tool Suite.
+4. Download repo
 	* Clone [ip-module](https://github.com/daocovalle/ip-information)
 
-7. Install docker and docker-compose
+5. Install docker and docker-compose
     * In linux machine use 
 	                      ```install-docker
 						     apt install docker.io
@@ -87,7 +86,7 @@ docker logs -f ip-information
 or additional you can check the health of services and create alarms for it:
 
 ```health
-    curl localhost:8090/actuator/health  #ip-blacklist
-	curl localhost:8092/actuator/health  #ipinformation
+    curl HOST:8090/actuator/health  #ip-blacklist
+	curl HOST:8092/actuator/health  #ipinformation
 ```
 
