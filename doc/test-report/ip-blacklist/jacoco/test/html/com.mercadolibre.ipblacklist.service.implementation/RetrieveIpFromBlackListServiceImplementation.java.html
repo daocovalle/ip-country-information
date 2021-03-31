@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RetrieveIpFromBlackListServiceImplementation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ip-blacklist</a> &gt; <a href="index.source.html" class="el_package">com.mercadolibre.ipblacklist.service.implementation</a> &gt; <span class="el_source">RetrieveIpFromBlackListServiceImplementation.java</span></div><h1>RetrieveIpFromBlackListServiceImplementation.java</h1><pre class="source lang-java linenums">package com.mercadolibre.ipblacklist.service.implementation;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mercadolibre.ipblacklist.db.entity.BlackListIpEntity;
+import com.mercadolibre.ipblacklist.db.repository.BlackListIPRepository;
+import com.mercadolibre.ipblacklist.dto.response.BlackListResponseDTO;
+import com.mercadolibre.ipblacklist.service.RetrieveIpFromBlackListService;
+import com.mercadolibre.ipblacklist.util.Constants;
+import com.mercadolibre.ipblacklist.util.Utils;
+
+@Service
+<span class="fc" id="L16">public class RetrieveIpFromBlackListServiceImplementation implements RetrieveIpFromBlackListService {</span>
+
+	@Autowired
+	BlackListIPRepository blackListIPRepository;
+
+<span class="fc" id="L21">	Logger logger = LoggerFactory.getLogger(RetrieveIpFromBlackListServiceImplementation.class);</span>
+
+	@Override
+	public BlackListResponseDTO retrieveIpFromBlacklist(String ip) {
+<span class="fc" id="L25">		logger.info(&quot;retrieving IP == {}&quot;, ip);</span>
+<span class="fc" id="L26">		BlackListIpEntity retrievedIp = blackListIPRepository.findByIpNumber(ip);</span>
+<span class="fc" id="L27">		logger.info(&quot;retrieving IP ==  {}&quot;, Utils.mapObject(retrievedIp));</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (retrievedIp == null) {</span>
+<span class="fc" id="L29">			return new BlackListResponseDTO(Constants.NOT_FOUND_IP_STATUS, Constants.IP_NOT_FOUND_MESSAGE);</span>
+		}
+<span class="fc" id="L31">		return new BlackListResponseDTO(Constants.IP_FOUND_STATUS, Constants.IP_FOUND_MESSAGE);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

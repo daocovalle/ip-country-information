@@ -1,0 +1,12 @@
+version: "2.2"
+services:
+   api-gateway:
+    container_name: api-gateway
+    image: api-gateway:latest
+    mem_limit: 600m
+    volumes:
+      - "C:\\etc\\mercadolibre\\config:/etc/mercadolibre/config"
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: "file:/etc/mercadolibre/config/api-gateway.yml"
+    ports:
+      - "8091:8091"

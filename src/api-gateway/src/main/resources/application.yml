@@ -1,0 +1,10 @@
+server:
+  port: 8091 
+zuul:
+  routes:
+    users:
+      path: /ipInformation/**
+      url: http://localhost:8080
+
+gateway-security:
+  allowed-paths: ["/ipInformation/**" ]

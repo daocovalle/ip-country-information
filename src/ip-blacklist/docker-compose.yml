@@ -1,0 +1,13 @@
+version: "2.2"
+services:
+  ip-blacklist:
+    container_name: ip-blacklist
+    image: ip-blacklist:latest
+    mem_limit: 600m
+    volumes:
+      - "C:\\etc\\mercadolibre\\config:/etc/mercadolibre/config"
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: "file:/etc/mercadolibre/config/ip-blacklist.yml"
+    ports:
+      - "8090:8090"
+   

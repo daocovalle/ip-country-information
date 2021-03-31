@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeansConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ip-information</a> &gt; <a href="index.source.html" class="el_package">com.mercadolibre.ipinformation.configuration</a> &gt; <span class="el_source">BeansConfiguration.java</span></div><h1>BeansConfiguration.java</h1><pre class="source lang-java linenums">package com.mercadolibre.ipinformation.configuration;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.mercadolibre.blacklist.configuration.BlackListConfigurationProperties;
+import com.mercadolibre.blacklist.service.implementation.RetrIpFromBlackListServicemplementation;
+import com.mercadolibre.blacklist.service.implementation.SaveIpBlackListServiceImplementation;
+import com.mercadolibre.coininformation.configuration.CoinConfigurationProperties;
+import com.mercadolibre.coininformation.service.implementation.CoinInformationServiceImplementation;
+import com.mercadolibre.countryinformation.configuration.CountryConfigurationProperties;
+import com.mercadolibre.countryinformation.service.implementation.CountryServiceImplementation;
+import com.mercadolibre.ipgeolocation.configuration.GeolocationConfigurationProperties;
+import com.mercadolibre.ipgeolocation.service.implementation.GeolocationInfoServiceImplementation;
+
+import reactor.core.publisher.Mono;
+
+@Configuration
+<span class="fc" id="L23">public class BeansConfiguration {</span>
+
+<span class="fc" id="L25">	static Logger logger = LoggerFactory.getLogger(BeansConfiguration.class);</span>
+
+	@Bean
+	public WebClient webClientConfiguration() {
+<span class="fc" id="L29">		return WebClient.builder().filter(logRequest()).build();</span>
+	}
+
+	@Bean
+	public CoinInformationServiceImplementation coinInfoConfiguration(WebClient webClient,
+			CoinConfigurationProperties configurations) {
+<span class="fc" id="L35">		return new CoinInformationServiceImplementation(webClient, configurations);</span>
+
+	}
+
+	@Bean
+	public CountryServiceImplementation countryInfoConfiguration(WebClient webClient,
+			CountryConfigurationProperties configurations) {
+<span class="fc" id="L42">		return new CountryServiceImplementation(webClient, configurations);</span>
+
+	}
+
+	@Bean
+	public GeolocationInfoServiceImplementation geolocationInfoConfiguration(WebClient webClient,
+			GeolocationConfigurationProperties configurations) {
+<span class="fc" id="L49">		return new GeolocationInfoServiceImplementation(webClient, configurations);</span>
+
+	}
+
+	@Bean
+	public RetrIpFromBlackListServicemplementation blackListConfiguration(WebClient webClient,
+			BlackListConfigurationProperties configurations) {
+<span class="fc" id="L56">		return new RetrIpFromBlackListServicemplementation(webClient, configurations);</span>
+
+	}
+
+	@Bean
+	public SaveIpBlackListServiceImplementation saveBlackListConfiguration(WebClient webClient,
+			BlackListConfigurationProperties configurations) {
+<span class="fc" id="L63">		return new SaveIpBlackListServiceImplementation(webClient, configurations);</span>
+
+	}
+
+	// This method returns filter function which will log request data
+	private static ExchangeFilterFunction logRequest() {
+<span class="fc" id="L69">		return ExchangeFilterFunction.ofRequestProcessor(clientRequest -&gt; {</span>
+<span class="nc" id="L70">			logger.info(&quot;Request: {} {}&quot;, clientRequest.method(), clientRequest.url());</span>
+<span class="nc" id="L71">			clientRequest.headers()</span>
+<span class="nc" id="L72">					.forEach((name, values) -&gt; values.forEach(value -&gt; logger.info(&quot;{}={}&quot;, name, value)));</span>
+<span class="nc" id="L73">			return Mono.just(clientRequest);</span>
+		});
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

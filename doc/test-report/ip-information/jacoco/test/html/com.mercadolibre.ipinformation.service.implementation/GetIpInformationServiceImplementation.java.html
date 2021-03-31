@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetIpInformationServiceImplementation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ip-information</a> &gt; <a href="index.source.html" class="el_package">com.mercadolibre.ipinformation.service.implementation</a> &gt; <span class="el_source">GetIpInformationServiceImplementation.java</span></div><h1>GetIpInformationServiceImplementation.java</h1><pre class="source lang-java linenums">package com.mercadolibre.ipinformation.service.implementation;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import com.mercadolibre.blacklist.dto.response.BlackListResponseDTO;
+import com.mercadolibre.blacklist.service.GetIpFromBlackListService;
+import com.mercadolibre.coininformation.dto.response.CoinInfoResponseDTO;
+import com.mercadolibre.coininformation.service.CoinInformationService;
+import com.mercadolibre.countryinformation.dto.response.CountryResponseDTO;
+import com.mercadolibre.countryinformation.service.CountryService;
+import com.mercadolibre.ipgeolocation.dto.response.GeolocationInfoResponseDTO;
+import com.mercadolibre.ipgeolocation.service.GeolocationInfoService;
+import com.mercadolibre.ipinformation.dto.response.CoinDTO;
+import com.mercadolibre.ipinformation.dto.response.InformationIpResponseDTO;
+import com.mercadolibre.ipinformation.exeption.ServiceException;
+import com.mercadolibre.ipinformation.service.GetIpInformationService;
+import com.mercadolibre.ipinformation.util.Constants;
+import com.mercadolibre.ipinformation.util.Utils;
+
+@Service
+<span class="fc" id="L28">public class GetIpInformationServiceImplementation implements GetIpInformationService {</span>
+
+	@Autowired
+	CountryService countryService;
+
+	@Autowired
+	CoinInformationService requestIPInformationService;
+
+	@Autowired
+	GeolocationInfoService geolocationService;
+
+	@Autowired
+	GetIpFromBlackListService getIpFromBlackListService;
+
+<span class="fc" id="L42">	Logger logger = LoggerFactory.getLogger(GetIpInformationServiceImplementation.class);</span>
+
+	@Override
+	public InformationIpResponseDTO getIPInformation(String ip) {
+
+<span class="fc" id="L47">		isIpInBlackList(ip);</span>
+
+		GeolocationInfoResponseDTO geolocationIp;
+<span class="fc" id="L50">		logger.info(&quot;Calling geolocation Information&quot;);</span>
+		try {
+<span class="fc" id="L52">			geolocationIp = geolocationService.requestGeolocationInformation(ip).block();</span>
+<span class="fc" id="L53">			logger.info(Utils.mapObject(geolocationIp));</span>
+
+<span class="fc" id="L55">			logger.info(&quot;Calling country Information&quot;);</span>
+<span class="fc" id="L56">			CountryResponseDTO infoCountry = countryService.requestCountryInformation(geolocationIp.countryCode3)</span>
+<span class="fc" id="L57">					.block();</span>
+<span class="fc" id="L58">			logger.info(Utils.mapObject(infoCountry));</span>
+
+<span class="fc" id="L60">			logger.info(&quot;Calling coin Information&quot;);</span>
+
+<span class="fc" id="L62">			List&lt;CoinDTO&gt; coinList = infoCountry.getCurrencies().stream().map((currency) -&gt; {</span>
+<span class="fc" id="L63">				CoinInfoResponseDTO coinInfo = requestIPInformationService</span>
+<span class="fc" id="L64">						.requestCoinInformation(currency.getCode(), &quot;usd,eur&quot;).block();</span>
+
+<span class="fc" id="L66">				logger.info(Utils.mapObject(coinInfo));</span>
+
+<span class="fc" id="L68">				logger.info(&quot;Transaction result success == &quot; + coinInfo.getSuccess());</span>
+
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">				if (Boolean.FALSE.equals(coinInfo.getSuccess())) {</span>
+<span class="nc" id="L71">					throw new ServiceException(coinInfo.getError().getType(), coinInfo.getError().getCode());</span>
+				}
+<span class="fc" id="L73">				return (CoinInfoResponseDTO) coinInfo;</span>
+<span class="fc" id="L74">			}).map((currecy) -&gt; {</span>
+<span class="fc" id="L75">				CoinDTO coinDTO = new CoinDTO();</span>
+<span class="fc" id="L76">				coinDTO.setCountryCode(currecy.getBase());</span>
+<span class="fc" id="L77">				coinDTO.setCoinTransformation(currecy.getRates());</span>
+<span class="fc" id="L78">				return coinDTO;</span>
+<span class="fc" id="L79">			}).collect(Collectors.toList());</span>
+
+<span class="fc" id="L81">			InformationIpResponseDTO informationIpResponseDTO = new InformationIpResponseDTO();</span>
+<span class="fc" id="L82">			informationIpResponseDTO.setCountryName(infoCountry.getName());</span>
+<span class="fc" id="L83">			informationIpResponseDTO.setIsoCode(infoCountry.getAlpha3Code());</span>
+<span class="fc" id="L84">			informationIpResponseDTO.setCoins(coinList);</span>
+
+<span class="fc" id="L86">			return informationIpResponseDTO;</span>
+<span class="nc" id="L87">		} catch (WebClientResponseException e) {</span>
+<span class="nc" id="L88">			throw new ServiceException(e.getLocalizedMessage(), e.getRawStatusCode());</span>
+		}
+	}
+
+	private void isIpInBlackList(String ip) {
+<span class="fc" id="L93">		BlackListResponseDTO result = getIpFromBlackListService.retrieveIpFromBlacklist(ip).block();</span>
+<span class="fc" id="L94">		logger.info(Utils.mapObject(result));</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">		if (result == null || result.getStatusCode() == 0)</span>
+<span class="fc" id="L96">			throw new ServiceException(Constants.MESSAGE_CONSTRAINT_IP, Constants.CODE_CONSTRAINT_IP);</span>
+<span class="fc" id="L97">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
