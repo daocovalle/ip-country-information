@@ -24,7 +24,7 @@
 2. If you are using Eclipse, go to *Help/Marketplace* and install Spring Tools
 3. Change text file encoding to UTF-8 in Eclipse or Spring Tool Suite.
 4. Download repo
-	* Clone [ip-module](https://github.com/daocovalle/ip-information)
+	* Clone [ip-module](https://github.com/daocovalle/ip-country-information)
 
 5. Install docker and docker-compose
     * In linux machine use 
