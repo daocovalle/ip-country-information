@@ -29,7 +29,7 @@
 5. Install docker and docker-compose
     * In linux machine use 
 	                      ```install-docker
-						     apt install docker.io
+						     apt install docker.io &&
 						     apt install docker-compose```
 ## Services
 
