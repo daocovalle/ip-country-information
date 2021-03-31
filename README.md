@@ -87,7 +87,7 @@ execute:
 ```start-services
 /opt/mercadolibre/start.sh
 ```
-##Check services
+## Check services
 
 ```check process and logs
 docker ps
@@ -109,3 +109,8 @@ Test service with:
 http://HOST:8091/country-information?ip=2.22.160.0
 http://13.59.79.74:8091/country-information?ip=2.22.160.0
 ```
+
+## Consume Final endpoint
+the endpoind is consumed using API-Gateway (port 8091)
+GET http://HOST:8091/country-information?ip=2.22.160.0
+GET http://13.59.79.74:8091/country-information?ip=2.22.160.0

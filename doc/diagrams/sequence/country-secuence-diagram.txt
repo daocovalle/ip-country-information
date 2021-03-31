@@ -4,14 +4,21 @@ IntegratorAPI->Api-Gateway: CountryInformationReqyest(IP)
 note right of IntegratorAPI: The path must be in allowd paths
 Api-Gateway->ip-information: CountryInformationReqyest(IP)
 note right of ip-information: The calls use client libraries
+ip-information->ip-blacklist: getIpFromBlacklist(IP)
+ip-blacklist->database: getIpFromBlacklistTable(IP)
+database-->ip-blacklist:response
+ip-blacklist-->ip-information:response
+alt ip in blacklist
+    ip-information-->Api-Gateway: response ip in BL
+    Api-Gateway-->IntegratorAPI:response
+end
 ip-information->ip-geolocation: requestGeolocationInformation(IP)
 ip-geolocation-->ip-information: response
 ip-information->country-information: requestCountryInformation(countrycode3)
 country-information-->ip-information: response
 ip-information->coin-information: GetCurrencyCoinInfo(base,symbols)
-coin-information-->ip-information: response
+coin-information-->ip-information: responsehttps://www.websequencediagrams.com/?png=msc299552468
 ip-information->ip-information: build response
 ip-information-->Api-Gateway: response
 Api-Gateway-->IntegratorAPI: response
 
-#https://www.websequencediagrams.com/
