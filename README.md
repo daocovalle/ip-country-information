@@ -81,7 +81,8 @@ execute:
 docker ps
 docker logs -f ip-blacklist
 docker logs -f api-gateway
-docker logs -f ip-information```
+docker logs -f ip-information
+```
 
 or additional you can check the health of services and create alarms for it:
 
