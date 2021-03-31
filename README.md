@@ -1,5 +1,18 @@
 # Country IP Information developer guide
 
+#Dev Tecnologies:
+* Java
+* Spring Boot
+* SpringJPA
+* Postgres
+* AWS EC2
+* AWS S3
+* AWS RDS
+
+#Test tecnologies
+* JUnit 5
+* Mockit
+
 ## Install the necessary programs ##
 
 * Install Java 11
